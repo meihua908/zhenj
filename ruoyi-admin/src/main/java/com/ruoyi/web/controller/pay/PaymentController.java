@@ -26,10 +26,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.wechat.pay.java.core.Config;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
@@ -38,7 +37,6 @@ import com.wechat.pay.java.service.payments.jsapi.model.Amount;
 import com.wechat.pay.java.service.payments.jsapi.model.Payer;
 import com.wechat.pay.java.service.payments.jsapi.model.PrepayRequest;
 import com.wechat.pay.java.service.payments.jsapi.model.PrepayResponse;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,10 +48,9 @@ import java.security.Signature;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
-
 @Controller
-@RequestMapping(value = "/payment")
+@RequestMapping(value = "/pay")
+@RequiresGuest
 public class PaymentController extends BaseController{
 
     /*** appid */
@@ -68,6 +65,15 @@ public class PaymentController extends BaseController{
     //public static final String apiV3key = "f9b959f2063d50134184119f08359549";
     /** 授权（必填）固定 */
     //public static final String grantType = "authorization_code";
+
+
+    @GetMapping("/test")
+    @ResponseBody
+    public String test()
+    {
+        System.out.println("==============test===============");
+        return "payTest";
+    }
 
     /**
      * login
